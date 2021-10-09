@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Rail3D.gd" type="Script" id=1]
+[ext_resource path="res://Train3d.tscn" type="PackedScene" id=2]
+[ext_resource path="res://StationEntrance3D.tscn" type="PackedScene" id=3]
+[ext_resource path="res://StationExit3D.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -1.82595, 0, -1.17484, 0, 0, 0, 0, 0, 0, 2.60446, 0, -1.17484, 0, 0, 0, 0, 0, 0, 2.68939, 0, 0.679424, 0, 0, 0, 0, 0, 0, -1.6561, 0, 0.792661, 0, 0, 0, 0, 0, 0, -1.82595, 0, -1.17484 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="Curve3D" id=2]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -0.380268, 0, -1.19326, 0, 0, 0, 0, 0, 0, 0.904776, 0, -1.9669, 0, 0, 0, 0, 0, 0, 1.56041, 0, -1.18014 ),
+"tilts": PoolRealArray( 0, 0, 0 )
+}
+
+[node name="Rail3D" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 3.88093, 0 )
+current = true
+
+[node name="Path_1" type="Path" parent="."]
+curve = SubResource( 1 )
+
+[node name="Train3d" parent="Path_1" instance=ExtResource( 2 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
+
+[node name="Path_2" type="Path" parent="."]
+curve = SubResource( 2 )
+
+[node name="StationEntrance3D2" parent="Path_2" instance=ExtResource( 3 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.364739, 0, -1.2249 )
+STATION_ID = 2
+
+[node name="StationExit3D2" parent="Path_2" instance=ExtResource( 4 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 1.55676, 0, -1.17755 )
+STATION_ID = 1
+[connection signal="changeTrainRail" from="Path_2/StationEntrance3D2" to="." method="_on_changeTrainRail"]
+[connection signal="changeTrainRail" from="Path_2/StationExit3D2" to="." method="_on_changeTrainRail"]

@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Rail.gd" type="Script" id=1]
+[ext_resource path="res://Train.tscn" type="PackedScene" id=2]
+[ext_resource path="res://StationEntrance.tscn" type="PackedScene" id=3]
+[ext_resource path="res://StationExit.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( -141.271, 137.907, 141.271, -137.907, 283.813, 118.73, -73.9989, -70.6353, 73.9989, 70.6353, 873.258, 133.262, 30.8495, -35.7419, -30.8495, 35.7419, 849.566, 530.454, 59.2698, 102.979, -59.2698, -102.979, 221.7, 250.618, 0, 0, 0, 0, 283.813, 118.73 )
+}
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 546.56, 110.604, 0, 0, 0, 0, 743.62, 38.5607, 0, 0, 0, 0, 815.664, 169.934 )
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 620.964, 481.584, 0, 0, 0, 0, 367.851, 512.028, 0, 0, 0, 0, 267.787, 326.859 )
+}
+
+[node name="Rail" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 511.265, 302.723 )
+
+[node name="Path_1" type="Path2D" parent="."]
+position = Vector2( 0, 81.2146 )
+scale = Vector2( 1, 0.854315 )
+curve = SubResource( 1 )
+
+[node name="Train" parent="Path_1" instance=ExtResource( 2 )]
+position = Vector2( 283.813, 118.73 )
+rotation = -0.761852
+
+[node name="Train2" parent="Path_1" instance=ExtResource( 2 )]
+position = Vector2( 582.276, 45.9326 )
+rotation = 0.0754267
+offset = 315.54
+
+[node name="Path_2" type="Path2D" parent="."]
+position = Vector2( 21.1892, 2.11893 )
+curve = SubResource( 2 )
+
+[node name="StationEnterance2" parent="Path_2" instance=ExtResource( 3 )]
+position = Vector2( 536.088, 105.947 )
+STATION_ID = 2
+
+[node name="StationExit2" parent="Path_2" instance=ExtResource( 4 )]
+position = Vector2( 819.811, 171.881 )
+STATION_ID = 1
+
+[node name="Path_3" type="Path2D" parent="."]
+curve = SubResource( 3 )
+
+[node name="StationEnterance3" parent="Path_3" instance=ExtResource( 3 )]
+position = Vector2( 612.298, 473.719 )
+STATION_ID = 3
+
+[node name="StationExit3" parent="Path_3" instance=ExtResource( 4 )]
+position = Vector2( 267.103, 327.579 )
+STATION_ID = 1
+[connection signal="changeTrainRail" from="Path_2/StationEnterance2" to="." method="_on_changeTrainRail" flags=3]
+[connection signal="changeTrainRail" from="Path_2/StationExit2" to="." method="_on_changeTrainRail" flags=3]
+[connection signal="changeTrainRail" from="Path_3/StationEnterance3" to="." method="_on_changeTrainRail" flags=3]
+[connection signal="changeTrainRail" from="Path_3/StationExit3" to="." method="_on_changeTrainRail" flags=3]
